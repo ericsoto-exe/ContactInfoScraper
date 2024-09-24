@@ -1,4 +1,4 @@
-````markdown
+```markdown
 # ContactInfoScraper
 
 ## Description
@@ -39,26 +39,26 @@
   - `openpyxl`
   - `googlesearch-python`
   - `tld`
-
-You can install the required libraries using pip:
-
-```bash
-pip install requests beautifulsoup4 lxml openpyxl googlesearch-python tld
 ```
-````
 
 ## Usage
 
 1. Clone or download the repository.
-2. Place your target URLs in a text file named `web_urls.txt`, or enter them directly when prompted by the script.
-3. Run the script:
+2. You can install the required libraries using pip:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Place your target URLs in a text file named `web_urls.txt`, or enter them directly when prompted by the script.
+4. Run the script:
 
    ```bash
    python contact_info_scraper.py
    ```
 
-4. Follow the prompts to enter URLs.
-5. After completion, the results will be saved to `contacts.xlsx`.
+5. Follow the prompts to enter URLs.
+6. After completion, the results will be saved to `contacts.xlsx`.
 
 ## Example of URL Input
 
