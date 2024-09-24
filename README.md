@@ -1,17 +1,17 @@
 ```markdown
 # ContactInfoScraper
 
-## Description
+## Overview
 
-**ContactInfoScraper** is a Python script designed to extract contact information, including emails and phone numbers, from specified web pages and their associated social media profiles. The script utilizes web scraping techniques to gather data from various sources, helping users easily compile contact details for businesses or organizations.
+ContactInfoScraper is a Python script designed to extract email and phone numbers from given web pages and output the data into an Excel file (contacts.xlsx). It also logs all events and outputs them into a log.txt file.
 
 ## Features
 
-- Fetches emails and phone numbers from the main webpage and linked contact pages.
-- Extracts information from social media platforms such as Facebook, Google Maps, and Yelp.
-- Conducts Google searches to find additional contact information.
-- Removes duplicate entries for a cleaner output.
-- Outputs the collected data into a well-formatted Excel spreadsheet.
+- Extracts email and phone numbers from websites.
+- Retrieves contact information from social media pages like Facebook.
+- Enhanced logging with timestamps for tracking each step of the process.
+- Readable output in Command Prompt windows of all sizes.
+- User-friendly batch file (OpenCmdHere.bat) for opening the CMD in the correct folder.
 
 ## How It Works
 
@@ -51,11 +51,17 @@ pip install -r requirements.txt
 ```
 
 3. Place your target URLs in a text file named `web_urls.txt`, or enter them directly when prompted by the script.
-4. Run the script:
+4. Run the Python script to start scraping contact information:
 
    ```bash
    python contact_info_scraper.py
    ```
+
+   The script will:
+
+- Output information to the Command Prompt with clear formatting.
+- Log all activities and errors into a log.txt file.
+- Save the contact information into contacts.xlsx.
 
 5. Follow the prompts to enter URLs.
 6. After completion, the results will be saved to `contacts.xlsx`.
@@ -81,11 +87,10 @@ The output will also be saved in `contacts.xlsx` with columns for Website, Email
 
 ## Logging
 
-The script logs its activities, which can help in debugging or tracking its progress. The logs are printed in the console and can be found in a log file if configured.
+A detailed log of the entire process, including errors and timestamps, is written to log.txt. Timestamps are displayed both in the Command Prompt and in the log file.
 
 ## Notes
 
-- Ensure that the target websites allow web scraping as per their `robots.txt` file to avoid legal issues.
 - Adjust the rate limiting (`time.sleep(1)`) as necessary based on your testing needs and the target website's policies.
 
 ## Contributions
