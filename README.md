@@ -95,7 +95,3 @@ Feel free to fork the repository and submit pull requests for any enhancements o
 ## License
 
 This project is licensed under the MIT License.
-
-```
-
-```
