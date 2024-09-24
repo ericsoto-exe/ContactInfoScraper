@@ -11,7 +11,7 @@ ContactInfoScraper is a Python script designed to extract email and phone number
 - Retrieves contact information from social media pages like Facebook.
 - Enhanced logging with timestamps for tracking each step of the process.
 - Readable output in Command Prompt windows of all sizes.
-- User-friendly batch file (OpenCmdHere.bat) for opening the CMD in the correct folder.
+- User-friendly batch file (OpenCmdHere.bat) for opening the CMD in the correct folder (for Windows).
 
 ## How It Works
 
@@ -91,6 +91,7 @@ A detailed log of the entire process, including errors and timestamps, is writte
 
 ## Notes
 
+- If you are using Windows, you can excute the ''OpenCmdHere.bat'' so you can run all the commands fron there.
 - Adjust the rate limiting (`time.sleep(1)`) as necessary based on your testing needs and the target website's policies.
 
 ## Contributions
