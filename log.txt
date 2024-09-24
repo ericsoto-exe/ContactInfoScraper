@@ -1,0 +1,77 @@
+2024-09-24 18:00:42,477 - INFO - Thank you...
+2024-09-24 18:00:44,295 - INFO - Searched home URL: https://www.smartosc.com/
+2024-09-24 18:00:45,190 - INFO - Searched contact URL: https://www.smartosc.com/contact-us/
+2024-09-24 18:00:46,210 - WARNING - Error accessing URL: https://www.smartosc.com/https://www.smartosc.com//contact-us/#contact-us, Error: 404 Client Error: Not Found for url: https://www.smartosc.com/https:/www.smartosc.com/contact-us/#contact-us
+2024-09-24 18:00:47,043 - INFO - Searched contact URL: https://www.smartosc.com/contact-us/
+2024-09-24 18:00:47,075 - INFO - Contact Info: {
+  "Website": "https://www.smartosc.com/",
+  "Email": [],
+  "Phone": [
+    "",
+    "1300 588 953",
+    " 3510 1378",
+    "20 3290 2301",
+    "425 243 4583",
+    "+44 ",
+    " 91728133",
+    "24 7108 1222",
+    "+8",
+    " 105-0004",
+    "+6",
+    "4",
+    "28 3848 6795"
+  ]
+}
+2024-09-24 18:00:48,099 - INFO - Saved results to contacts.xlsx
+2024-09-24 18:03:34,813 - INFO - 2024-09-24 18:03:34 - Thank you...
+2024-09-24 18:03:36,525 - INFO - 2024-09-24 18:03:36 - Searched home URL: https://www.smartosc.com/
+2024-09-24 18:03:37,400 - INFO - 2024-09-24 18:03:37 - Searched contact URL: https://www.smartosc.com/contact-us/
+2024-09-24 18:03:38,438 - WARNING - 2024-09-24 18:03:38 - Error accessing URL: https://www.smartosc.com/https://www.smartosc.com//contact-us/#contact-us, Error: 404 Client Error: Not Found for url: https://www.smartosc.com/https:/www.smartosc.com/contact-us/#contact-us
+2024-09-24 18:03:39,226 - INFO - 2024-09-24 18:03:39 - Searched contact URL: https://www.smartosc.com/contact-us/
+2024-09-24 18:03:39,258 - INFO - 2024-09-24 18:03:39 - Contact Info: {
+  "Website": "https://www.smartosc.com/",
+  "Email": [],
+  "Phone": [
+    "",
+    "425 243 4583",
+    "28 3848 6795",
+    "1300 588 953",
+    " 91728133",
+    "+6",
+    " 3510 1378",
+    "+44 ",
+    "4",
+    " 105-0004",
+    "24 7108 1222",
+    "+8",
+    "20 3290 2301"
+  ]
+}
+2024-09-24 18:03:40,297 - INFO - 2024-09-24 18:03:40 - Saved results to contacts.xlsx
+2024-09-24 18:03:40,297 - INFO - 2024-09-24 18:03:40 - Saved results to contacts.xlsx
+2024-09-24 18:06:29,013 - INFO - 2024-09-24 18:06:29 - Thank you...
+2024-09-24 18:06:30,774 - INFO - 2024-09-24 18:06:30 - Searched home URL: https://www.smartosc.com/
+2024-09-24 18:06:31,667 - INFO - 2024-09-24 18:06:31 - Searched contact URL: https://www.smartosc.com/contact-us/
+2024-09-24 18:06:32,689 - WARNING - 2024-09-24 18:06:32 - Error accessing URL: https://www.smartosc.com/https://www.smartosc.com//contact-us/#contact-us, Error: 404 Client Error: Not Found for url: https://www.smartosc.com/https:/www.smartosc.com/contact-us/#contact-us
+2024-09-24 18:06:33,476 - INFO - 2024-09-24 18:06:33 - Searched contact URL: https://www.smartosc.com/contact-us/
+2024-09-24 18:06:33,507 - INFO - 2024-09-24 18:06:33 - Contact Info: {
+  "Website": "https://www.smartosc.com/",
+  "Email": [],
+  "Phone": [
+    "",
+    " 3510 1378",
+    "+44 ",
+    "28 3848 6795",
+    " 105-0004",
+    "24 7108 1222",
+    "+6",
+    "425 243 4583",
+    "+8",
+    "20 3290 2301",
+    "1300 588 953",
+    " 91728133",
+    "4"
+  ]
+}
+2024-09-24 18:06:34,555 - INFO - 2024-09-24 18:06:34 - Saved results to contacts.xlsx
+2024-09-24 18:06:34,555 - INFO - 2024-09-24 18:06:34 - Saved results to contacts.xlsx

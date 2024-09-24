@@ -10,11 +10,21 @@ from urllib.parse import urlparse
 from googlesearch import search
 import openpyxl
 from openpyxl.styles import Font, PatternFill
+from datetime import datetime
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("log.txt"),
+        logging.StreamHandler()
+    ]
+)
 
-# Function to remove duplicates
+def get_timestamp():
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
 def remove_duplicates(data):
     return list(set(data))
 
@@ -33,16 +43,18 @@ def get_phone(html):
     return set(num for pattern in phone_patterns for num in re.findall(pattern, html))
 
 def log_no_results(info_type, source):
-    logging.info(f"No {info_type} found on {source}.")
-    print(f'No {info_type} found on {source}.')  # Print for CMD
+    timestamp = get_timestamp()
+    log_message = f'{timestamp} - No {info_type} found on {source}.'
+    logging.info(log_message)
+    print(log_message)
 
 def fetch_data_with_error_handling(url, headers):
     try:
         res = requests.get(url, headers=headers)
-        res.raise_for_status()  # Raise an error for bad responses
+        res.raise_for_status()
         return res
     except requests.exceptions.RequestException as e:
-        logging.warning("Error accessing URL: %s, Error: %s", url, e)
+        logging.warning(f"{get_timestamp()} - Error accessing URL: {url}, Error: {e}")
         return None
 
 def find_contact_links(soup):
@@ -67,8 +79,11 @@ def gather_contact_info(url):
     res = fetch_data_with_error_handling(url, headers)
 
     if res:
-        logging.info('Searched home URL: %s', res.url)
-        print(f'Searched home URL: {res.url}')  # Print for CMD
+        timestamp = get_timestamp()
+        log_message = f'{timestamp} - Searched home URL: {res.url}'
+        logging.info(log_message)
+        print(f'\n{log_message}\n{"="*40}')  # Section divider
+
         info = BeautifulSoup(res.text, 'lxml')
         company_name = info.title.string if info.title else "Unknown Company"
 
@@ -78,44 +93,40 @@ def gather_contact_info(url):
             'Phone': remove_duplicates(list(get_phone(info.get_text())))
         }
 
-        # Extract contact links and Facebook URL
         contact_links = find_contact_links(info)
         facebook_url = extract_facebook_url(info)
 
-        # Gather contact info from links
         for contact_link in contact_links:
             contact_url = contact_link if 'http' in contact_link else urlparse(res.url)._replace(path='/'.join(res.url.split('/')[:-1]) + '/' + contact_link).geturl()
             contact_res = fetch_data_with_error_handling(contact_url, headers)
             if contact_res:
-                logging.info('Searched contact URL: %s', contact_res.url)
-                print(f'Searched contact URL: {contact_res.url}')  # Print for CMD
+                timestamp = get_timestamp()
+                log_message = f'{timestamp} - Searched contact URL: {contact_res.url}'
+                logging.info(log_message)
+                print(f'\n{log_message}\n{"="*40}')  # Section divider
+
                 contact_info = BeautifulSoup(contact_res.text, 'lxml').get_text()
                 contacts_f['Email'].extend(get_email(contact_info))
                 contacts_f['Phone'].extend(get_phone(contact_info))
 
-        # Check social media for phone numbers
-        if not contacts_f['Phone']:
-            if facebook_url:
-                fb_phones = get_phone_from_social_media(facebook_url)
-                contacts_f['Phone'].extend(fb_phones)
-                if not fb_phones:
-                    log_no_results('phone numbers', 'Facebook')
+        if not contacts_f['Phone'] and facebook_url:
+            fb_phones = get_phone_from_social_media(facebook_url)
+            contacts_f['Phone'].extend(fb_phones)
+            if not fb_phones:
+                log_no_results('phone numbers', 'Facebook')
 
-        # Check Google Maps
         if not contacts_f['Phone']:
             maps_phones = get_phone_from_social_media(f"{company_name} site:maps.google.com")
             contacts_f['Phone'].extend(maps_phones)
             if not maps_phones:
                 log_no_results('phone numbers', 'Google Maps')
 
-        # Check Yelp
         if not contacts_f['Phone']:
             yelp_phones = get_phone_from_social_media(f"{company_name} site:yelp.com")
             contacts_f['Phone'].extend(yelp_phones)
             if not yelp_phones:
                 log_no_results('phone numbers', 'Yelp')
 
-        # Check Google
         if not contacts_f['Phone']:
             google_results = search_google(company_name)
             for result in google_results:
@@ -125,8 +136,7 @@ def gather_contact_info(url):
                     google_phones = get_phone(google_res.text)
                     contacts_f['Email'].extend(google_emails)
                     contacts_f['Phone'].extend(google_phones)
-
-                    if contacts_f['Phone']:  # If phone number is found, break the loop
+                    if contacts_f['Phone']:
                         break
                 else:
                     log_no_results('phone numbers', 'Google')
@@ -137,49 +147,47 @@ def gather_contact_info(url):
         return contacts_f
     return None
 
-# Initialize search list
-with open("web_urls.txt", "w") as file:  # Clear existing data
+with open("web_urls.txt", "w") as file:
     pass
 
-# Input URLs directly with validation
 urls = []
 while True:
     url = input('Enter the webpage URL (or type "n" to finish): ')
     if url.lower() == 'n':
-        logging.info('Thank you...')
+        logging.info(f'{get_timestamp()} - Thank you...')
         break
 
     parsed_url = urlparse(url)
     if not parsed_url.scheme:
         url = 'https://' + url
 
-    # Basic URL validation
     if not re.match(r'https?://[^\s/$.?#].[^\s]*', url):
-        print("Invalid URL. Please enter a valid URL.")
-        logging.warning("Invalid URL entered: %s", url)
+        timestamp = get_timestamp()
+        print(f"\n{timestamp} - Invalid URL. Please enter a valid URL.\n")
+        logging.warning(f"{timestamp} - Invalid URL entered: {url}")
         continue
 
     urls.append(url)
     with open("web_urls.txt", "a") as file:
         file.write(url + '\n')
 
-# Looping over the URLs with rate limiting
 contacts = []
 for url in urls:
     contact_info = gather_contact_info(url)
     if contact_info:
         contacts.append(contact_info)
-        logging.info('Contact Info: %s', json.dumps(contact_info, indent=2))
+        timestamp = get_timestamp()
+        logging.info(f'{timestamp} - Contact Info: {json.dumps(contact_info, indent=2)}')
 
-        # Enhanced print output
-        print(f'Contact Info:\n'
+        # Readable print output with line breaks
+        print(f'\n{timestamp} - Contact Info\n'
               f'Website: {contact_info["Website"]}\n'
               f'Emails: {", ".join(contact_info["Email"]) if contact_info["Email"] else "None"}\n'
-              f'Phones: {", ".join(contact_info["Phone"]) if contact_info["Phone"] else "None"}\n')
+              f'Phones: {", ".join(contact_info["Phone"]) if contact_info["Phone"] else "None"}\n'
+              f'{"="*40}')
     
-    time.sleep(1)  # Rate limit
+    time.sleep(1)
 
-# Saving the results
 def save_to_excel(contacts):
     wb = openpyxl.Workbook()
     ws = wb.active
@@ -193,21 +201,17 @@ def save_to_excel(contacts):
 
     for col in ws.columns:
         max_length = 0
-        column = col[0].column_letter  # Get the column name
+        col_letter = col[0].column_letter
         for cell in col:
             try:
                 if len(str(cell.value)) > max_length:
                     max_length = len(cell.value)
             except:
                 pass
-        adjusted_width = (max_length + 2)
-        ws.column_dimensions[column].width = adjusted_width
-        for cell in col:
-            cell.font = Font(name='Arial', size=12)
-            cell.fill = PatternFill(start_color="FFFFFF00", end_color="FFFFFF00", fill_type="solid")
+        ws.column_dimensions[col_letter].width = (max_length + 2)
 
-    wb.save("contacts.xlsx")
+    wb.save('contacts.xlsx')
+    logging.info(f'{get_timestamp()} - Saved results to contacts.xlsx')
 
-# Call the function to save the contacts to Excel
 save_to_excel(contacts)
-print("Results saved to contacts.xlsx")
+logging.info(f'{get_timestamp()} - Saved results to contacts.xlsx')
